@@ -32,8 +32,13 @@ class Command(BaseCommand):
                 start_at=poster_data['start_at'],
                 finish_at=poster_data['finish_at'],
                 title_address=poster_data['venue']['title'],
-                address = poster_data['venue']['address'],
-                for price in poster_data['price_categories'][]
+                address = poster_data['venue']['address']
+                )
+            for price in poster_data['price_categories']:
+                poster = Posters(
+                    ticket_type=price['title'],
+                    ticket_price=price['price']
+
                 )
             poster_url = poster_data['poster']
             response = requests.get(poster_url, stream=True)
