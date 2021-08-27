@@ -30,7 +30,11 @@ class Command(BaseCommand):
                 title=poster_data['title'], 
                 description=poster_data['description'],
                 start_at=poster_data['start_at'],
-                finish_at=poster_data['finish_at'])
+                finish_at=poster_data['finish_at'],
+                title_address=poster_data['venue']['title'],
+                address = poster_data['venue']['address'],
+                for price in poster_data['price_categories'][]
+                )
             poster_url = poster_data['poster']
             response = requests.get(poster_url, stream=True)
             file_name = poster_url.split('/')[-1]
