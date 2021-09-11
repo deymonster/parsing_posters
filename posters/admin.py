@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from posters.models import Posters
+from posters.models import *
 
-class PostersAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', "get_image")
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title','description', "get_image")
     list_display_links = ('id', 'title')
     search_fields = ('title',)
     readonly_fields=("get_image",)
@@ -15,4 +15,6 @@ class PostersAdmin(admin.ModelAdmin):
 
     
 
-admin.site.register(Posters, PostersAdmin)
+admin.site.register(Event, EventAdmin)
+admin.site.register(Session)
+admin.site.register(Ticket)

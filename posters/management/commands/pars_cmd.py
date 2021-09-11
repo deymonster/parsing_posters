@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from posters.models import Posters
+from posters.models import *
 import requests
 from time import sleep
 from django.core.files import File
@@ -21,34 +21,57 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         r = requests.get(url, headers=HEADERS, timeout=50)
         data = r.json()
-        #count = data['count']
+        
         for item in data['results']:
             response_event = requests.get(f"{url_ticket}{item['uuid']}")
             sleep(0.15)
-            poster_data = response_event.json()
-            poster = Posters(
-                title=poster_data['title'], 
-                description=poster_data['description'],
-                start_at=poster_data['start_at'],
-                finish_at=poster_data['finish_at'],
-                title_address=poster_data['venue']['title'],
-                address = poster_data['venue']['address']
-                )
-            for price in poster_data['price_categories']:
-                poster = Posters(
-                    ticket_type=price['title'],
-                    ticket_price=price['price']
-
-                )
-            poster_url = poster_data['poster']
-            response = requests.get(poster_url, stream=True)
-            file_name = poster_url.split('/')[-1]
+            event_data = response_event.json()
+            event = Event(
+                title=event_data['title'], 
+                description=event_data['description'])
+            event_url = event_data['poster']
+            response = requests.get(event_url, stream=True)
+            file_name = event_url.split('/')[-1]
             lf = tempfile.NamedTemporaryFile()
             for block in response.iter_content(1024 * 8):
                 if not block:
                     break
                 lf.write(block)
-			            
-            poster.image.save(file_name, files.File(lf))
-            poster.save()
+			
+            event.image.save(file_name, files.File(lf))
+            event.save()
+
+            session = Session(
+                start_at=event_data['start_at'],
+                finish_at=event_data['finish_at'],
+                title_address=event_data['venue']['title'],
+                address = event_data['venue']['address']
+
+            )  
+            session.save()  
+
+
+            for price in event_data['price_categories']:
+                ticket = Ticket(
+                    title=price['title'],
+                    price=price['price'],
+                    event=event,
+                    session=session
+
+                )
+
+            scheme_url = event_data['scheme']
+            if scheme_url:
+                response = requests.get(scheme_url, stream=True)
+                file_name = scheme_url.split('/')[-1]
+                lf = tempfile.NamedTemporaryFile()
+                for block in response.iter_content(1024 * 8):
+                    if not block:
+                        break
+                    lf.write(block)
+                ticket.scheme.save(file_name, files.File(lf))
+            else:
+                continue
+            ticket.save()
+        
         self.stdout.write(self.style.SUCCESS('Added all posters!'))
