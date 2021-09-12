@@ -45,7 +45,8 @@ class Command(BaseCommand):
                 start_at=event_data['start_at'],
                 finish_at=event_data['finish_at'],
                 title_address=event_data['venue']['title'],
-                address = event_data['venue']['address']
+                address = event_data['venue']['address'],
+                event = event
 
             )  
             session.save()  
@@ -56,9 +57,8 @@ class Command(BaseCommand):
                     title=price['title'],
                     price=price['price'],
                     event=event,
-                    session=session
-
-                )
+                    session=session)
+                ticket.save()
 
             scheme_url = event_data['scheme']
             if scheme_url:
@@ -70,8 +70,7 @@ class Command(BaseCommand):
                         break
                     lf.write(block)
                 ticket.scheme.save(file_name, files.File(lf))
-            else:
-                continue
+                            
             ticket.save()
         
         self.stdout.write(self.style.SUCCESS('Added all posters!'))
