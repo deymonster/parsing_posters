@@ -5,6 +5,7 @@ class Event(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название группы')
     description = models.TextField(null=True, blank=True, verbose_name='Описание')
     image = models.ImageField(upload_to='posters/', null=True, verbose_name='Постер', blank=True)
+    scheme = models.ImageField(upload_to='scheme/', null=True, verbose_name='Схема', blank=True)
         
     def __str__(self):
         return self.title
@@ -31,7 +32,6 @@ class Ticket(models.Model):
     title = models.CharField(max_length=150, verbose_name='Тип билета')
     price = models.DecimalField(max_digits=75, decimal_places=2,  verbose_name='Цена')
     event = models.ForeignKey(Event, null=True, on_delete=PROTECT, verbose_name='Событие')
-    scheme = models.ImageField(upload_to='scheme/', null=True, verbose_name='Схема', blank=True)
     session = models.ForeignKey(Session, null=True, on_delete=PROTECT, verbose_name="Сессия")
     def __str__(self):
         return self.title

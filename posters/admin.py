@@ -25,7 +25,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'description', 'get_image')
     list_display_links = ('title',)
     search_fields = ('title',)
-    inlines = [TicketInline, SessionInline]
+    inlines = [SessionInline, TicketInline ]
     readonly_fields = ("get_image",)
     save_on_top = True
     save_as = True
