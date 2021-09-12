@@ -29,6 +29,7 @@ class Command(BaseCommand):
             event = Event(
                 title=event_data['title'], 
                 description=event_data['description'])
+                
             event_url = event_data['poster']
             response = requests.get(event_url, stream=True)
             file_name = event_url.split('/')[-1]
@@ -39,6 +40,18 @@ class Command(BaseCommand):
                 lf.write(block)
 			
             event.image.save(file_name, files.File(lf))
+
+            scheme_url = event_data['scheme']
+            if scheme_url:
+                response = requests.get(scheme_url, stream=True)
+                file_name = scheme_url.split('/')[-1]
+                lf = tempfile.NamedTemporaryFile()
+                for block in response.iter_content(1024 * 8):
+                    if not block:
+                        break
+                    lf.write(block)
+                event.scheme.save(file_name, files.File(lf))
+
             event.save()
 
             session = Session(
@@ -60,7 +73,7 @@ class Command(BaseCommand):
                     session=session)
                 ticket.save()
 
-            scheme_url = event_data['scheme']
+            """ scheme_url = event_data['scheme']
             if scheme_url:
                 response = requests.get(scheme_url, stream=True)
                 file_name = scheme_url.split('/')[-1]
@@ -71,6 +84,6 @@ class Command(BaseCommand):
                     lf.write(block)
                 ticket.scheme.save(file_name, files.File(lf))
                             
-            ticket.save()
+            ticket.save() """
         
         self.stdout.write(self.style.SUCCESS('Added all posters!'))
