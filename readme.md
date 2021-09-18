@@ -17,7 +17,7 @@
 
 ##### 2) Клонировать репозиторий
 
-    git clone ссылка_сгенерированная_в_вашем_репозитории
+    git clone https://github.com/deymonster/parsing_posters.git
 
 ##### 3) Создать виртуальное окружение
 
@@ -27,9 +27,11 @@
 
 ##### 5) Устанавливить зависимости:
 
-    pip install -r req.txt
+    pip install -r requirements.txt
 
 ##### 6) Выполнить команду для выполнения миграций
+
+    python manage.py migrations
 
     python manage.py migrate
     
