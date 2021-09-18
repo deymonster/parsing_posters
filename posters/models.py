@@ -25,6 +25,8 @@ class Session(models.Model):
     def __str__(self):
         return str(self.title_address)
     
+    
+        
 
 
 
@@ -33,8 +35,13 @@ class Ticket(models.Model):
     price = models.DecimalField(max_digits=75, decimal_places=2,  verbose_name='Цена')
     event = models.ForeignKey(Event, null=True, on_delete=PROTECT, verbose_name='Событие')
     session = models.ForeignKey(Session, null=True, on_delete=PROTECT, verbose_name="Сессия")
+
     def __str__(self):
         return self.title
+
+    class Meta():
+        verbose_name = 'Билет'
+        verbose_name_plural = 'Билеты'
     
 
 
