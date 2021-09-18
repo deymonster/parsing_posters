@@ -82,8 +82,5 @@ class TicketAdmin(admin.ModelAdmin):
     
 
 
-    
-
-#admin.site.register(Event, EventAdmin)
-#admin.site.register(Session)
-#admin.site.register(Ticket)
+admin.site.site_title = "Parsing Django"
+admin.site.site_header = "Parsing Django"
