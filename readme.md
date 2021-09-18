@@ -24,6 +24,7 @@
     python -m venv venv
     
 ##### 4) Активировать виртуальное окружение
+    python venv\Scripts\activate (Windows only)
 
 ##### 5) Устанавливить зависимости:
 
@@ -45,4 +46,8 @@
 
 ##### 10) Запуск скрипта
     python manage.py pars_cmd
+
+##### 11) Просмотр результатов парсинга
+    http://127.0.0.1:8000/admin/
+
 
