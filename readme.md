@@ -32,7 +32,7 @@
 
 ##### 6) Выполнить команду для выполнения миграций
 
-    python manage.py migrations
+    python manage.py makemigrations
 
     python manage.py migrate
     
